@@ -123,7 +123,104 @@ button.danger { color: var(--danger-color); border-color: var(--danger-color); }
 button.big { font-size: 18px; padding: 14px 36px; border-radius: 12px; }
 [hidden] { display: none !important; }
 
+/* 상단 탭 */
+.topbar { gap: 12px; flex-wrap: wrap; }
+.tabs { display: flex; gap: 6px; }
+.tab { border-radius: 999px; }
+.tab.active { background: var(--main-color); border-color: var(--main-color); color: #fff; }
+
+/* 할 일·캘린더 공통 */
+.page { display: grid; gap: 16px; padding: 16px 20px; max-width: 1000px; margin: 0 auto; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.card h2 { margin: 0 0 12px; font-size: 18px; }
+.card h3 { margin: 16px 0 6px; font-size: 14px; color: var(--sub-text); }
+ul.plain { list-style: none; margin: 0; padding: 0; }
+
+.todo-form, .event-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.todo-form input[type="text"], .event-form input[type="text"] { flex: 1 1 200px; }
+.todo-form input, .todo-form select, .event-form input {
+  font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px;
+}
+.todo-form label, .event-form label { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--sub-text); }
+
+.todo-item, .event-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 4px; border-bottom: 1px solid var(--line);
+}
+.todo-title, .event-title-text { flex: 1; word-break: break-word; }
+.todo-item.done .todo-title { text-decoration: line-through; color: var(--sub-text); }
+.badge { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: #eef0f6; color: var(--sub-text); white-space: nowrap; }
+.badge.overdue { background: #fde8e8; color: var(--danger-color); }
+.badge.prio-high { background: #fde8e8; color: #c0262b; }
+.badge.prio-normal { background: #e8ecff; color: #3b50c8; }
+.badge.prio-low { background: #eef0f6; color: var(--sub-text); }
+.mini-btn { padding: 4px 8px; font-size: 13px; }
+.item-empty { color: var(--sub-text); font-size: 14px; padding: 6px 4px; }
+
+/* 캘린더 */
+.cal-page { grid-template-columns: 1fr 340px; align-items: start; }
+.cal-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.cal-head strong { flex: 1; text-align: center; font-size: 18px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-dow { text-align: center; font-size: 12px; color: var(--sub-text); padding: 4px 0; }
+.cal-dow.sun, .cal-cell.sun .cal-num { color: var(--danger-color); }
+.cal-dow.sat, .cal-cell.sat .cal-num { color: var(--main-color); }
+.cal-cell {
+  min-height: 84px; padding: 4px; text-align: left;
+  display: flex; flex-direction: column; gap: 2px;
+  border-radius: 8px; overflow: hidden;
+}
+.cal-num { font-size: 13px; font-weight: 600; align-self: flex-start; }
+.cal-cell.today .cal-num { background: var(--main-color); color: #fff; border-radius: 999px; padding: 0 6px; }
+.cal-cell.selected { border-color: var(--main-color); background: #e8ecff; }
+.chips { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.chip { font-size: 11px; padding: 1px 4px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chip.event { background: #e8ecff; color: #3b50c8; }
+.chip.todo { background: #fff3d6; color: #8a5a00; }
+.chip.todo.done { text-decoration: line-through; opacity: 0.6; }
+.chip-more { font-size: 11px; color: var(--sub-text); }
+
+/* AI 요약 */
+.ai-panel { margin-top: 6px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.ai-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+#ai-status { font-size: 14px; color: var(--main-color); }
+.ai-notice { margin: 8px 0 0; font-size: 12px; color: var(--sub-text); }
+.ai-box { margin-top: 12px; padding: 12px; background: #f7f8ff; border: 1px solid #d9defc; border-radius: 10px; }
+.ai-box h4 { margin: 0 0 8px; font-size: 15px; }
+.ai-box h5 { margin: 14px 0 4px; font-size: 13px; color: var(--sub-text); }
+.ai-summary { margin: 0; font-weight: 600; }
+.ai-box ul:not(.plain) { margin: 4px 0; padding-left: 20px; }
+.ai-todo { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.ai-todo input[type="text"] { flex: 1 1 160px; }
+.ai-todo input { font: inherit; font-size: 14px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 8px; }
+.ai-todo label { font-size: 12px; color: var(--sub-text); display: flex; align-items: center; gap: 4px; }
+.ai-todo.added { opacity: 0.6; }
+button.mini-btn.primary { background: var(--main-color); border-color: var(--main-color); color: #fff; }
+.ai-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+/* 알림 */
+.notify-toggle { display: flex; align-items: center; gap: 6px; font-size: 14px; cursor: pointer; }
+.notify-note { margin: 0; padding: 6px 20px; font-size: 13px; background: #fff7e6; border-bottom: 1px solid #ffd591; }
+.hint { margin: 0 0 10px; font-size: 13px; color: var(--sub-text); }
+.toasts { position: fixed; right: 16px; bottom: 16px; z-index: 50; display: flex; flex-direction: column; gap: 8px; max-width: min(360px, calc(100vw - 32px)); }
+.toast {
+  display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center;
+  padding: 10px 12px; background: var(--card); border: 1px solid var(--main-color);
+  border-left-width: 5px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+.toast strong { grid-column: 1; font-size: 14px; }
+.toast span { grid-column: 1; font-size: 14px; word-break: break-word; }
+.toast button { grid-column: 2; grid-row: 1 / span 2; }
+
 /* 폭이 좁은 화면(휴대폰)에서는 위아래로 쌓기 */
 @media (max-width: 700px) {
   .layout { grid-template-columns: 1fr; padding: 12px; }
+  .page, .page.cal-page { grid-template-columns: 1fr; padding: 12px; }
+  .cal-cell { min-height: 54px; }
+  /* 좁은 화면에서는 일정 글자 대신 작은 점으로 표시 */
+  .chips { flex-direction: row; flex-wrap: wrap; gap: 3px; }
+  .chip { font-size: 0; padding: 0; width: 7px; height: 7px; border-radius: 50%; }
+  .chip.event { background: #3b50c8; }
+  .chip.todo { background: #e0a100; }
+  .chip-more { font-size: 10px; }
 }

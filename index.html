@@ -10,17 +10,27 @@
   <!-- 시작 화면: 문구는 여기서 바꾸세요 -->
   <section id="start-screen" class="start-screen">
     <h1>📝 AI 올인원 메모장</h1>
-    <p>메모를 적고, 나중에 할 일과 일정, 알림까지 한 곳에서.</p>
+    <p>메모를 적고, 할 일과 일정, 알림까지 한 곳에서.</p>
     <button id="start-btn" type="button" class="primary big">시작하기</button>
   </section>
 
   <div id="app" hidden>
   <header class="topbar">
     <h1>📝 메모장</h1>
+    <nav class="tabs" aria-label="화면 선택">
+      <button type="button" class="tab active" data-view="memo">메모</button>
+      <button type="button" class="tab" data-view="todo">할 일</button>
+      <button type="button" class="tab" data-view="calendar">캘린더</button>
+    </nav>
+    <label class="notify-toggle" title="일정·할 일 알림을 켜고 끕니다">
+      <input type="checkbox" id="notify-toggle"> 🔔 알림
+    </label>
     <button id="new-btn" type="button">+ 새 메모</button>
   </header>
+  <p class="notify-note" id="notify-note" hidden></p>
 
-  <main class="layout">
+  <!-- ===== 메모 화면 ===== -->
+  <main id="view-memo" class="layout">
     <!-- 왼쪽: 메모 목록 -->
     <aside class="list-panel">
       <ul id="memo-list" aria-label="메모 목록"></ul>
@@ -41,10 +51,83 @@
         <span id="status" role="status" aria-live="polite"></span>
       </div>
       <p id="time-info" class="time-info"></p>
+
+      <!-- AI 요약: 결과는 원본 메모를 바꾸지 않고 따로 저장돼요 -->
+      <div class="ai-panel">
+        <div class="ai-head">
+          <button id="summarize-btn" type="button">✨ AI 요약</button>
+          <span id="ai-status" role="status" aria-live="polite"></span>
+        </div>
+        <p class="ai-notice">요약하면 메모 내용이 <b>외부 AI 서비스로 전송</b>돼요. 원본 메모는 바뀌지 않아요.</p>
+        <div id="ai-result"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== 할 일 화면 ===== -->
+  <main id="view-todo" class="page" hidden>
+    <section class="card">
+      <h2>✅ 할 일</h2>
+      <form id="todo-form" class="todo-form">
+        <input id="todo-title" type="text" placeholder="할 일을 적어 보세요" maxlength="100" autocomplete="off" required>
+        <label>마감일 <input id="todo-due" type="date"></label>
+        <label>알림 <input id="todo-remind" type="datetime-local"></label>
+        <label>중요도
+          <select id="todo-priority">
+            <option value="high">높음</option>
+            <option value="normal" selected>보통</option>
+            <option value="low">낮음</option>
+          </select>
+        </label>
+        <button type="submit" class="primary">추가</button>
+      </form>
+      <p class="hint">🔔 알림은 <b>이 화면을 열어 둔 동안에만</b> 울려요. 창을 닫아 두었다면 다시 열 때 놓친 알림을 알려 줘요.</p>
+      <ul id="todo-list" class="plain" aria-label="할 일 목록"></ul>
+      <p id="todo-empty" class="empty" hidden>아직 할 일이 없어요. 위에서 추가해 보세요.</p>
+    </section>
+  </main>
+
+  <!-- ===== 캘린더 화면 ===== -->
+  <main id="view-calendar" class="page cal-page" hidden>
+    <section class="card">
+      <div class="cal-head">
+        <button id="cal-prev" type="button" aria-label="이전 달">‹</button>
+        <strong id="cal-title"></strong>
+        <button id="cal-next" type="button" aria-label="다음 달">›</button>
+        <button id="cal-today" type="button">오늘</button>
+      </div>
+      <div id="cal-grid" class="cal-grid"></div>
+    </section>
+
+    <section class="card">
+      <h2 id="cal-day-title"></h2>
+      <form id="event-form" class="event-form">
+        <input id="event-title" type="text" placeholder="일정 제목" maxlength="100" autocomplete="off" required>
+        <label>시작 <input id="event-start" type="time" required></label>
+        <label>종료 <input id="event-end" type="time"></label>
+        <label>알림
+          <select id="event-remind">
+            <option value="">없음</option>
+            <option value="0">정각</option>
+            <option value="10">10분 전</option>
+            <option value="60">1시간 전</option>
+          </select>
+        </label>
+        <button type="submit" class="primary">일정 추가</button>
+      </form>
+      <h3>일정</h3>
+      <ul id="day-events" class="plain"></ul>
+      <h3>마감 할 일</h3>
+      <ul id="day-todos" class="plain"></ul>
     </section>
   </main>
   </div>
 
+  <!-- 알림이 뜨는 자리 -->
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
   <script src="app.js"></script>
+  <script src="planner.js"></script>
+  <script src="ai.js"></script>
 </body>
 </html>
