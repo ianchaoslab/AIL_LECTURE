@@ -84,9 +84,7 @@ function renderEditor() {
   deleteBtn.hidden = !memo;   // 새 메모일 때는 삭제 버튼 숨김
   timeInfoEl.textContent = memo
     ? `만든 시각: ${formatTime(memo.createdAt)} · 수정: ${formatTime(memo.updatedAt)}`
-    : "";
-  if (window.onMemoChanged) window.onMemoChanged();   // AI 요약 영역(ai.js)에 알려 줌
-}
+    : "";}
 
 // ===== 동작 =====
 function selectMemo(id) {
@@ -135,11 +133,9 @@ function deleteCurrent() {
   if (!currentId) return;
   if (!confirm("이 메모를 삭제할까요? 되돌릴 수 없어요.")) return;
 
-  const deletedId = currentId;
   memos = memos.filter((m) => m.id !== currentId);
   saveMemos();
   currentId = null;
-  if (window.onMemoDeleted) window.onMemoDeleted(deletedId);   // 그 메모의 요약도 함께 지움
   renderEditor();
   renderList();
   showStatus("삭제했어요");

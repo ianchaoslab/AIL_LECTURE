@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MVP 정리 - AI 올인원 메모장</title>
+  <title>MVP 정리 - 메모장</title>
   <style>
     /* 색상은 여기 변수만 바꾸면 전체에 적용돼요 */
     :root {
@@ -14,16 +14,14 @@
       --sub: #6b7280;
       --line: #e3e6ee;
       --done-bg: #e3f6ea;  --done-text: #1a7f45;
-      --todo-bg: #eef0f6;  --todo-text: #6b7280;
-      --key-bg: #fff3d6;   --key-text: #8a5a00;
+      --hold-bg: #eef0f6;  --hold-text: #6b7280;
       --warn-bg: #fff7e6;  --warn-line: #ffd591;
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
         --bg: #14161d; --card: #1d2029; --text: #eceef5; --sub: #9aa1b2; --line: #2d313d;
         --done-bg: #17382a; --done-text: #6fd59b;
-        --todo-bg: #2a2e3a; --todo-text: #9aa1b2;
-        --key-bg: #3a2f12; --key-text: #f2c562;
+        --hold-bg: #2a2e3a; --hold-text: #9aa1b2;
         --warn-bg: #3a2f12; --warn-line: #7a5d1b;
       }
     }
@@ -52,24 +50,21 @@
     .legend { font-size: 13px; color: var(--sub); }
     .tag { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
     .tag.done { background: var(--done-bg); color: var(--done-text); }
-    .tag.todo { background: var(--todo-bg); color: var(--todo-text); }
-    .tag.warn { background: var(--key-bg);  color: var(--key-text); }
+    .tag.hold { background: var(--hold-bg); color: var(--hold-text); }
 
     .hypo { border-left: 4px solid var(--main); background: var(--bg); padding: 12px 14px; border-radius: 8px; margin: 10px 0; font-size: 17px; }
 
     /* 진행률 막대 */
     .progress-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; font-size: 14px; margin-bottom: 6px; }
-    .bar { height: 12px; background: var(--todo-bg); border-radius: 999px; overflow: hidden; display: flex; }
+    .bar { height: 12px; background: var(--hold-bg); border-radius: 999px; overflow: hidden; display: flex; }
     .bar > i { display: block; height: 100%; }
     .bar > i.ok { width: 77.8%; background: var(--main); }
-    .bar > i.pending { width: 22.2%; background: var(--key-text); opacity: .55; }
 
     /* 표 */
     .table-wrap { overflow-x: auto; margin: 8px 0; }
     table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 460px; }
     th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
     th { font-size: 12px; color: var(--sub); }
-    tr.row-key td { background: var(--key-bg); }
 
     /* 흐름 */
     ol.flow { list-style: none; padding: 0; counter-reset: step; }
@@ -91,12 +86,12 @@
 <body>
   <div class="wrap">
     <header class="hero">
-      <h1>MVP 정리: AI 올인원 메모장 (가칭)</h1>
-      <p>PRD의 P0(반드시 필요) 기능 범위와 개발 결과</p>
+      <h1>MVP 정리: 메모장 (가칭: AI 올인원 메모장)</h1>
+      <p>PRD 기능 중 이번 MVP에 넣은 범위와 개발 결과</p>
       <div class="meta">
-        <span>문서 버전 v0.2 (초안, 개발 결과 반영)</span>
+        <span>문서 버전 v0.3 (AI 기능 제외 결정 반영)</span>
         <span>작성일 2026-11-26</span>
-        <span>기준 문서 PRD.md v0.1</span>
+        <span>기준 문서 PRD.md v0.1 (수정하지 않음)</span>
         <span>상태: 검토 필요</span>
         <span><a href="https://ail-lecture-memo.vercel.app">배포 주소</a></span>
       </div>
@@ -106,20 +101,30 @@
     </header>
 
     <section class="card">
-      <h2>1. MVP가 확인하려는 것 📝</h2>
-      <p class="hypo">"메모, 할 일, 알림을 앱 3개로 나눠 쓰는 것이 귀찮은 사람은, 한 앱에서 메모를 AI로 정리하고 할 일과 일정으로 바로 옮길 수 있으면 쓸 것이다."</p>
-      <h3>핵심 가치 ✅ (PRD 2-2)</h3>
+      <h2>1. 이번 결정: AI 기능은 뺀다 ✅</h2>
+      <ul>
+        <li>기획자가 <b>AI 기능(AI 요약, 메모에서 할 일 만들기)을 이번 MVP에서 제외</b>하기로 했습니다.</li>
+        <li>확인된 사실: AI 호출은 비용이 들고, 배포 환경의 Vercel AI Gateway가 계정 확인(<code>customer_verification_required</code>)을 요구해서 실제 요약 응답을 받아 보지 못했습니다.</li>
+        <li>AI 코드(<code>ai.js</code>, <code>api/summarize.js</code>, <code>vercel.json</code>)는 <b>삭제</b>했습니다. GitHub 이전 커밋(<code>d77a760</code>)에 남아 있어서 나중에 되살릴 수 있어요.</li>
+      </ul>
+      <p class="callout"><b>PRD.md는 고치지 않았습니다.</b> PRD에는 M-2(AI 요약)와 T-3(메모에서 할 일 만들기)이 P0로 적혀 있어서, 이 문서의 범위와 PRD가 달라졌어요. PRD를 고칠지는 직접 정해 주세요.</p>
+    </section>
+
+    <section class="card">
+      <h2>2. MVP가 확인하려는 것 📝</h2>
+      <p class="hypo">"메모, 할 일, 일정, 알림을 앱 3개로 나눠 쓰는 것이 귀찮은 사람은, 한 앱에서 모두 쓸 수 있으면 쓸 것이다."</p>
+      <h3>핵심 가치 (PRD 2-2)</h3>
       <ol>
-        <li>메모, 할 일, 캘린더, 알림을 한 앱 안에서 끝낸다.</li>
-        <li>정리되지 않은 메모를 AI 요약으로 바로 읽을 수 있게 만든다.</li>
-        <li>메모 속 할 일과 일정을 다시 입력하지 않고 등록한다.</li>
+        <li>메모, 할 일, 캘린더, 알림을 한 앱 안에서 끝낸다. <span class="tag done">이번 MVP</span></li>
+        <li>정리되지 않은 메모를 AI 요약으로 바로 읽을 수 있게 만든다. <span class="tag hold">보류</span></li>
+        <li>메모 속 할 일과 일정을 다시 입력하지 않고 등록한다. <span class="tag hold">보류 (지금은 직접 입력)</span></li>
       </ol>
     </section>
 
     <section class="card">
-      <h2>2. MVP 범위: P0 기능 전부 ✅</h2>
-      <div class="progress-head"><strong>진행률</strong><span>P0 9개 중 <b>7개 완료·확인</b>, 2개는 <b>실제 AI 연결 확인 전</b></span></div>
-      <div class="bar" role="img" aria-label="9개 중 7개 완료, 2개 AI 연결 확인 전"><i class="ok"></i><i class="pending"></i></div>
+      <h2>3. MVP 범위와 현재 상태 ✅</h2>
+      <div class="progress-head"><strong>진행률</strong><span>이번 MVP 범위 <b>7개 모두 완료</b> · 보류 2개(AI 기능)</span></div>
+      <div class="bar" role="img" aria-label="전체 9개 중 7개 완료, 2개 보류"><i class="ok"></i></div>
 
       <div class="table-wrap">
         <table>
@@ -132,78 +137,58 @@
             <tr><td>C-2</td><td>일정 추가 (날짜·시간)</td><td>2단계</td><td><span class="tag done">완료</span></td></tr>
             <tr><td>C-3</td><td>할 일 마감일이 캘린더에 자동 표시</td><td>2단계</td><td><span class="tag done">완료</span></td></tr>
             <tr><td>N-1</td><td>정해진 시각에 알림 (앱을 열어 둔 상태)</td><td>3단계</td><td><span class="tag done">완료</span></td></tr>
-            <tr class="row-key"><td>M-2</td><td><b>AI 메모 요약</b></td><td>4단계</td><td><span class="tag warn">구현 완료 · AI 연결 미확인</span></td></tr>
-            <tr class="row-key"><td>T-3</td><td><b>메모에서 할 일 만들기</b></td><td>5단계</td><td><span class="tag warn">구현 완료 · AI 연결 후 확인</span></td></tr>
+            <tr><td>M-2</td><td>AI 메모 요약</td><td>4단계</td><td><span class="tag hold">보류 (AI 제외)</span></td></tr>
+            <tr><td>T-3</td><td>메모에서 할 일 만들기</td><td>5단계</td><td><span class="tag hold">보류 (AI 요약에 의존)</span></td></tr>
           </tbody>
         </table>
       </div>
 
-      <p class="callout"><b>🟡 AI 요약이 아직 확인되지 않은 이유 ✅</b><br>
-        배포된 서버가 Vercel AI Gateway에 요청하면 <code>403 customer_verification_required</code>(고객 확인 필요)로 <b>거부</b>됩니다. 이 Vercel 계정이 AI 기능을 쓰기 위한 확인(결제 정보 등록 등)을 아직 하지 않은 상태로 보여요. 정확한 절차와 비용 조건은 Vercel 안내 화면에서 확인해야 하고, 결제 정보가 걸려 있어 <b>기획자가 직접</b> 해야 합니다.<br>
-        그동안 AI 요약을 누르면 "잠시 후 다시 시도해 주세요" 안내가 나오고, 메모·할 일·캘린더·알림은 정상 동작합니다. (PRD 7-3: AI는 부가 기능)</p>
-
-      <h3>MVP에 넣지 않는 것 ✅ (PRD 2-3, 4장)</h3>
+      <h3>알림 기능 요약 ✅</h3>
       <ul>
-        <li>공유 기능, 휴대폰 앱(iOS/안드로이드), 구글 캘린더 등 외부 연동, 이미지·음성·파일 첨부</li>
-        <li><b>P1:</b> 메모 검색, 태그, AI 할 일 정리, AI 채팅, 날짜별 모아 보기 (알림 미리 받기는 일정에 "10분 전·1시간 전" 선택만 일부 넣음)</li>
-        <li><b>P2:</b> 메모 고정, 이메일·푸시 알림, 메모 기반 질문</li>
+        <li>할 일은 알림 시각을, 일정은 "정각·10분 전·1시간 전"을 고를 수 있어요.</li>
+        <li>15초마다 확인해서 화면 안 알림을 띄우고, 브라우저 알림을 허용하면 그것도 띄웁니다.</li>
+        <li>앱을 닫아 둔 사이 지난 알림은 다시 열 때 "놓친 알림"으로 알려 줘요.</li>
+        <li>헤더의 🔔 스위치로 켜고 끕니다.</li>
+      </ul>
+
+      <h3>MVP에 넣지 않는 것 ✅</h3>
+      <ul>
+        <li>AI 요약, 메모에서 할 일 만들기, AI 할 일 정리, AI 채팅, 메모 기반 질문</li>
+        <li>공유 기능, 휴대폰 앱, 외부 서비스 연동, 첨부 메모</li>
+        <li>메모 검색, 태그, 메모 고정, 날짜별 모아 보기(메모 포함), 이메일·푸시 알림</li>
       </ul>
     </section>
 
     <section class="card">
-      <h2>3. MVP 핵심 사용 흐름 📝</h2>
-      <p>PRD 5장의 시나리오입니다. 5번까지 모두 화면에 구현되어 있고, 2번은 실제 AI 연결 확인이 남았습니다.</p>
+      <h2>4. 핵심 사용 흐름 📝</h2>
       <ol class="flow">
-        <li>급하게 메모를 적는다. (예: "금 보고서 팀장 확인 3시 회의 자료")</li>
-        <li><b>✨ AI 요약</b>을 누르면 한 줄 요약, 핵심 내용, 발견된 할 일·날짜가 나온다. <span class="tag warn">AI 연결 미확인</span></li>
-        <li>발견된 할 일의 마감일과 알림 시각을 확인·수정하고 <b>할 일로 추가</b>를 누른다. (사용자가 확인한 뒤에만 저장) <span class="tag done">구현</span></li>
-        <li>캘린더에 표시된다. <span class="tag done">완료</span></li>
-        <li>정해진 시각에 앱 안에서 알림이 뜬다. <span class="tag done">완료</span></li>
+        <li>메모를 적고 저장한다.</li>
+        <li>할 일 탭에서 할 일을 추가하고 마감일·알림 시각을 정한다. (직접 입력)</li>
+        <li>캘린더에 마감일과 일정이 표시된다.</li>
+        <li>정해진 시각에 앱 안에서 알림이 뜬다.</li>
       </ol>
-    </section>
-
-    <section class="card">
-      <h2>4. 단계별 개발 결과</h2>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>단계</th><th>내용</th><th>결과</th></tr></thead>
-          <tbody>
-            <tr><td>3단계</td><td>앱 내 알림</td><td>할 일은 알림 시각, 일정은 "정각·10분 전·1시간 전" 선택. 15초마다 확인하고, 닫아 둔 사이 지난 알림은 "놓친 알림"으로 알림. 켜기/끄기 스위치와 브라우저 알림(허용 시) 지원</td></tr>
-            <tr><td>4단계</td><td>AI 메모 요약</td><td>서버 파일 <code>api/summarize.js</code> + 메모 화면의 요약 영역. 결과는 원본을 덮어쓰지 않고 따로 저장하며 "저장 / 다시 요약 / 버리기" 제공</td></tr>
-            <tr><td>5단계</td><td>메모 → 할 일 변환</td><td>요약에서 찾은 할 일을 줄마다 고쳐서 추가하거나 "남은 할 일 모두 추가"(확인창 거침). 중복 추가 방지</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <h3>4단계 서버 구조 ✅</h3>
-      <ul>
-        <li>Vercel Function이 Vercel AI Gateway를 호출합니다. 모델 기본값은 <code>anthropic/claude-haiku-5.5</code>이고 환경변수 <code>AI_MODEL</code>로 바꿀 수 있어요.</li>
-        <li><b>API 키를 코드나 화면에 넣지 않았습니다.</b> Vercel이 서버에 자동으로 주는 인증 토큰을 씁니다. (PRD 7-1)</li>
-        <li>비용·남용 방지: 메모 4,000자 제한, 답변 길이 제한, 한 사람당 1분 6회·1시간 40회, 서버 전체 1시간 300회, 같은 사이트에서 온 요청만 허용.</li>
-        <li>단, 사용 횟수 제한은 서버 메모리에 있어서 <b>대략적인 제한</b>입니다. 확실한 비용 상한은 Vercel 대시보드의 AI Gateway 예산 설정으로 따로 걸어야 해요.</li>
-        <li>메모 내용이 외부 AI 서비스로 전송된다는 안내를 요약 버튼 아래에 표시합니다. (PRD 7-1)</li>
-      </ul>
     </section>
 
     <section class="card">
       <h2>5. 지금 알려진 한계 ✅</h2>
       <ul>
         <li><b>저장은 브라우저 안에서만</b> 됩니다. 다른 기기·다른 브라우저에서는 보이지 않고, 브라우저 데이터를 지우면 사라집니다. (PRD 7-3)</li>
-        <li>알림은 앱 화면을 열어 둔 동안만 울립니다. 닫아 둔 사이의 알림은 다시 열 때 "놓친 알림"으로 알려 줍니다. (PRD 4-4)</li>
-        <li>로그인이 없어서 사용자 구분이 없습니다. 누구나 배포 주소로 들어와 AI 요약을 쓸 수 있어서 비용 관리가 필요합니다.</li>
-        <li>AI 요약의 정확도(특히 날짜 해석)는 실제 AI 연결 후 사용해 보며 확인해야 합니다.</li>
+        <li>알림은 앱 화면을 열어 둔 동안만 울립니다. 닫아 둔 사이의 알림은 다시 열 때 알려 줘요. (PRD 4-4)</li>
+        <li>로그인이 없어서 사용자 구분이 없습니다.</li>
+        <li>메모에서 할 일과 일정을 자동으로 옮기는 기능이 없어서, "다시 입력하지 않고 등록"하는 가치는 이번 MVP에서 확인할 수 없습니다.</li>
       </ul>
     </section>
 
     <section class="card">
       <h2>6. MVP 검증 방법 📝</h2>
-      <p>PRD 10장 원칙대로 <b>목표 숫자는 첫 테스트 뒤에 정하고</b>, 먼저 측정할 항목만 적습니다.</p>
+      <p>PRD 10장 원칙대로 <b>목표 숫자는 첫 테스트 뒤에 정하고</b>, 측정할 항목만 적습니다. AI 요약 관련 항목은 뺐어요.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>측정 항목</th><th>확인하려는 것</th></tr></thead>
           <tbody>
-            <tr><td>메모 중 요약 버튼을 누른 비율</td><td>요약이 필요한 기능인가</td></tr>
-            <tr><td>AI가 제안한 할 일 중 저장한 비율</td><td>제안이 쓸 만한가</td></tr>
+            <tr><td>알림을 설정한 할 일·일정의 비율</td><td>알림 기능을 쓰는가</td></tr>
             <tr><td>알림 설정 후 실제로 확인한 비율</td><td>알림이 제 역할을 하는가</td></tr>
+            <tr><td>메모·할 일·캘린더 중 많이 쓰는 화면</td><td>어떤 기능이 핵심인가</td></tr>
             <tr><td>테스트 사용자 한 줄 소감: "앱을 따로 열지 않아도 되는가?"</td><td>핵심 가설이 맞는가</td></tr>
           </tbody>
         </table>
@@ -217,30 +202,23 @@
         <table>
           <thead><tr><th>위험</th><th>대응</th></tr></thead>
           <tbody>
-            <tr><td>AI 연결이 확인되지 않아 핵심 가설을 시험할 수 없다</td><td>8장 1번(AI 이용 방식) 결정 후 실제 요약 품질 확인</td></tr>
-            <tr><td>누구나 AI 요약을 호출할 수 있어 비용이 늘 수 있다</td><td>입력·횟수 제한(적용됨), AI Gateway 예산 상한 설정(직접 필요), 필요하면 로그인 추가</td></tr>
-            <tr><td>AI가 날짜, 시간을 잘못 이해한다</td><td>저장 전에 사용자가 확인(적용됨)</td></tr>
-            <tr><td>메모에 민감한 개인정보가 들어간다</td><td>입력 안내 문구와 AI 전송 안내(적용됨)</td></tr>
+            <tr><td>AI 없이는 "정리해 주는 앱"이라는 차별점이 약하다</td><td>나중에 AI를 다시 넣을지 결정 (코드는 GitHub 이전 커밋에 있음)</td></tr>
+            <tr><td>앱을 닫으면 알림을 못 받는다</td><td>한계를 화면에 안내, 필요하면 푸시 알림 단계 추가</td></tr>
             <tr><td>데이터가 브라우저에만 있어 잃어버린다</td><td>한계를 문서에 안내, 이후 서버 저장으로 확장</td></tr>
+            <tr><td>메모에 민감한 개인정보가 들어간다</td><td>입력 안내 문구(적용됨). 지금은 외부로 전송되지 않고 브라우저에만 저장됨</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <section class="card">
-      <h2>8. 직접 결정·진행해야 하는 것</h2>
+      <h2>8. 직접 결정해야 하는 것</h2>
       <ol>
-        <li><b>AI를 어떤 방식으로 쓸 것인가? (결제 정보가 걸려 있어 직접 진행)</b>
-          <ul>
-            <li>방법 A: Vercel 대시보드에서 AI Gateway 이용을 위한 계정 확인을 진행한다. (현재 코드 그대로 동작할 가능성이 높음. 비용 조건은 Vercel 안내 화면에서 확인)</li>
-            <li>방법 B: 본인이 가진 다른 AI 서비스의 API 키를 Vercel 환경변수에 직접 등록한다. (서버 코드를 그 서비스에 맞게 고쳐야 함)</li>
-            <li>방법 C: AI 요약 없이 지금 상태로 두고 메모·할 일·캘린더·알림만 사용한다.</li>
-          </ul>
-        </li>
-        <li><b>MVP의 목적은?</b> 포트폴리오 시연용인지, 실제 사용자 테스트용인지 (서버 저장·로그인 필요 여부가 달라집니다)</li>
-        <li><b>AI 비용은 누가 내는가?</b> 본인만 쓰는지, 테스트 사용자도 쓰는지</li>
-        <li><b>알림은 컴퓨터 화면이면 충분한가?</b> 휴대폰에서 앱을 닫은 채 받아야 하는가 (그렇다면 푸시 알림 단계가 필요)</li>
-        <li>앱 이름은?</li>
+        <li><b>PRD를 고칠까요?</b> M-2, T-3을 P0에서 빼거나 "보류"로 바꾸는 것을 포함해서요.</li>
+        <li><b>MVP의 목적은?</b> 포트폴리오 시연용인지, 실제 사용자 테스트용인지</li>
+        <li><b>AI를 나중에 다시 넣을 계획이 있는가?</b> 있다면 비용 부담과 이용 방식을 먼저 정해야 해요.</li>
+        <li><b>알림은 컴퓨터 화면이면 충분한가?</b> 앱을 닫은 채 휴대폰으로 받아야 한다면 푸시 알림 단계가 필요합니다.</li>
+        <li>앱 이름은? (지금 "AI 올인원 메모장"은 PRD의 가칭이에요. AI를 뺐으니 바꾸는 것을 고려해 보세요.)</li>
       </ol>
     </section>
 

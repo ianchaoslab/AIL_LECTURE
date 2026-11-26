@@ -121,11 +121,6 @@
       li.appendChild(makeBadge((overdue ? "지남 " : "마감 ") + shortDate(todo.dueDate), overdue ? "overdue" : ""));
     }
     if (todo.remindAt) li.appendChild(makeBadge("🔔 " + formatRemind(todo.remindAt), ""));
-    if (todo.memoId) {
-      const fromMemo = makeBadge("📝 메모", "");
-      fromMemo.title = "메모에서 만든 할 일";
-      li.appendChild(fromMemo);
-    }
     const prio = PRIORITY[todo.priority] || PRIORITY.normal;
     li.appendChild(makeBadge(prio.label, "prio-" + (PRIORITY[todo.priority] ? todo.priority : "normal")));
 
@@ -146,7 +141,7 @@
     sorted.forEach((todo) => list.appendChild(buildTodoItem(todo)));
   }
 
-  // 할 일 하나를 저장함 (직접 추가할 때와 AI 요약에서 추가할 때 같이 씀)
+  // 할 일 하나를 저장함
   function addTodo(data) {
     const todo = {
       id: newId(),
@@ -156,7 +151,6 @@
       priority: PRIORITY[data.priority] ? data.priority : "normal",
       remindAt: data.remindAt || null,                   // 알림 시각(밀리초), 없으면 null
       reminded: false,                                   // 알림을 이미 울렸는지
-      memoId: data.memoId || null,                       // 메모에서 만들었다면 원본 메모 id
       createdAt: Date.now()
     };
     todos.push(todo);
@@ -465,9 +459,6 @@
 
   setInterval(checkReminders, CHECK_EVERY_MS);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) checkReminders(); });
-
-  // 다른 파일(ai.js)에서 쓸 수 있게 내보냄
-  window.Planner = { addTodo: addTodo, showView: showView };
 
   // ---------- 시작 ----------
   checkReminders();
